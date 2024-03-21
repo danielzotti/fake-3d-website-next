@@ -21,9 +21,9 @@ export const Box3d = ({layer}: Box3d) => {
     }, []);
 
     const transform = useMemo(() => {
-        const newLayer = layer !== undefined ? layer : 0;
+        const newLayer = layer ?? 0;
         // const newZ = ((z !== undefined && newLayer > 0) ? z : 1) * newLayer; // Apply only to positive layers
-        const newZ = (z !== undefined ? z : 1) * newLayer;
+        const newZ = (z ?? 1) * newLayer;
         const newX = -50 - (x ?? 0) * newZ;
         const newY = -50 - (y ?? 0) * newZ;
         return `translate3d(${newX}%, ${newY}%, ${newZ}px)`;
