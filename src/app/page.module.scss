@@ -1,0 +1,80 @@
+.container {
+  scroll-snap-type: y mandatory;
+  max-height: 100vh;
+  overflow: auto;
+  &:global(.eyes) {
+    cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👀</text></svg>") 16 0,auto;
+  }
+}
+.contentContainer {
+  scroll-snap-align: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.content {
+  margin: 30px auto;
+  display: flex;
+  position: relative;
+  border: 1px solid red;
+  aspect-ratio: 1;
+  perspective: 10cm;
+  overflow: hidden;
+
+  @media(orientation: portrait) {
+    width: 90dvw;
+  }
+  @media(orientation: landscape) {
+    height: 90dvh;
+  }
+}
+
+.webcamControls {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.video {
+  transform: scaleX(-1); // Selfie mode
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  width: 300px;
+  cursor: pointer;
+  transition: opacity 0.25s ease-in-out, width 0.25s ease-in-out;
+
+  &:global(.tiny) {
+    width: 100px;
+    transform: scaleX(1);
+  }
+
+  &:global(.hide) {
+    pointer-events: none;
+    opacity: 0;
+    width: 50px;
+  }
+}
+
+.videoMini {
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  display: block;
+  font-size: 30px;
+  background: black;
+  z-index: 100;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.button {
+  padding: 8px 16px;
+  background: black;
+  border: 0 solid gray;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+}
