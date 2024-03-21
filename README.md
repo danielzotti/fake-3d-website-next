@@ -43,10 +43,12 @@ A 3D mode for a website using webcam and face detection
 
 - [x] Add local mediapipe detector solutionPath
 - [x] Cache model using Service Worker (do not download model every time)
-- [ ] Add React Context in order to simplify the set of x and y
-- [ ] Create a UI of a real website
+- [x] Add React Context in order to simplify the set of x and y point
+- [x] Add/Improve depth using both eyes (it works only calculating the horizontal distance)
+- [ ] Create a more graphical example
+- [ ] Improve UI
+- [ ] Create an example of a real website
 - [ ] Add threshold for face detection
-- [ ] Add/Improve depth using both eyes
 
 ## Thanks to
 - TensorflowJs
