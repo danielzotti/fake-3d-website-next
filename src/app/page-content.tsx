@@ -29,6 +29,8 @@ interface State {
     mousePosition: { x: number, y: number };
     screenWidth: number;
     screenHeight: number;
+    // debug
+    isDebugEnabled: boolean;
 }
 
 export const PageContent = () => {
@@ -56,6 +58,8 @@ export const PageContent = () => {
         screenWidth: 1,
         screenHeight: 1,
         mousePosition: {x: 0, y: 0},
+        // debug
+        isDebugEnabled: false,
     });
 
     const detectMousePosition = useCallback((e: MouseEvent) => {
@@ -310,6 +314,20 @@ export const PageContent = () => {
         };
     }, [detectMousePosition, detectMouseWheel]);
 
+    const enableDebug = () => {
+        setState((s) => ({
+            ...s,
+            isDebugEnabled: true,
+        }));
+    };
+
+    const disableDebug = () => {
+        setState((s) => ({
+            ...s,
+            isDebugEnabled: false,
+        }));
+    }
+
     return (
         <>
             <main className={`${styles.container} ${state.isMouseEnabled ? 'eyes' : ''}`}>
@@ -344,6 +362,18 @@ export const PageContent = () => {
             </main>
 
             <div className={styles.webcamControls}>
+
+                {/*DEBUG*/}
+
+                {!state.isDebugEnabled &&
+                    <button onClick={enableDebug} className={styles.button}>
+                        Enable Debug
+                    </button>}
+                {state.isDebugEnabled && <button onClick={disableDebug} className={styles.button}>
+                    Disable Debug
+                </button>}
+
+                {/*MOUSE*/}
                 {!state.isMouseEnabled && !state.isWebcamEnabled &&
                     <button onClick={enableMouse} className={styles.button}>
                         Enable Mouse
@@ -351,6 +381,8 @@ export const PageContent = () => {
                 {state.isMouseEnabled && <button onClick={disableMouse} className={styles.button}>
                     Disable Mouse
                 </button>}
+
+                {/*WEBCAM*/}
                 {!state.isMouseEnabled && state.hasWebcamSupport && <>
                     {!state.isWebcamEnabled && <button onClick={enableWebcam} className={styles.button}>
                         Enable Webcam
@@ -363,7 +395,7 @@ export const PageContent = () => {
                 </>}
 
                 {state.hasWebcamSupport === false &&
-                    <p>No webcam support, you cannot see this website in 3D mode!</p>}
+                    <p>No webcam support, I&apos;m sorry</p>}
 
                 {state.isWebcamEnabled && <>
                     {!isDetectingVideo.current && state.isVideoLoaded &&
@@ -373,7 +405,7 @@ export const PageContent = () => {
                             disabled={state.isModelLoading}
                         >
                                 <span>
-                                    Enable 3D
+                                    Enable Webcam 3D
                                 </span>
                             {state.isModelLoading && <small>&nbsp;(loading...)</small>}
                         </button>
@@ -383,10 +415,12 @@ export const PageContent = () => {
                             onClick={disableDetectingVideo}
                             className={styles.button}
                         >
-                            Disable 3D
+                            Disable Webcam 3D
                         </button>}
                 </>}
-                <pre>State: {JSON.stringify(currentState, null, 2)}</pre>
+
+                {state.isDebugEnabled &&
+                    <pre>State: {JSON.stringify(currentState, null, 2)}</pre>}
                 {/*<pre>State: {JSON.stringify(state, null, 2)}</pre>*/}
             </div>
 
