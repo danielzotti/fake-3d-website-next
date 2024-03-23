@@ -2,3 +2,19 @@ html, body {
   margin: 0;
   padding:0;
 }
+
+button {
+  padding: 8px 16px;
+  background: black;
+  border: 0 solid gray;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+
+  &.btn-inverse {
+    background: white;
+    color: black;
+    border: 1px solid black;
+  }
+}

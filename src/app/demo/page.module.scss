@@ -1,0 +1,38 @@
+.container {
+  display: block;
+  height: 100dvh;
+  width: 100dvw;
+  overflow: hidden;
+  position: absolute;
+  perspective: 10cm;
+}
+
+.settings {
+  position: fixed;
+  z-index: 10000;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.video {
+  visibility: hidden;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  max-width: 100%;
+}
+
+.webcamWarning {
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  margin: 10px;
+  display: inline-block;
+  background-color: #ffd54d;
+  color: black;
+  border: 1px solid #d36c04;
+  border-radius: 5px;
+}
