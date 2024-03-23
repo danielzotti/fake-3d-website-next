@@ -1,47 +1,18 @@
 "use client";
-import {Box3d} from "@/components/box-3d/box-3d";
+
+import {Element3d} from "@/components/element-3d/element-3d";
 import {useMouse} from "@/hooks/useMouse";
 import {usePermissions} from "@/hooks/usePermissions";
 import {useWebcam} from "@/hooks/useWebcam";
-import {ViewState} from "@/models/view-state.models";
-import {ViewContext} from "@/providers/ViewContextProvider";
-import {CSSProperties, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 
 import styles from "./page.module.scss";
 
-const Element = ({layer, style}: { layer: number; style: CSSProperties }) => {
-    const {viewState: {x, y, z}} = useContext(ViewContext);
-
-    const transform = useMemo(() => {
-        const newLayer = layer ?? 0;
-        const newZ = (z ?? 1) * newLayer;
-        const newX = -(x ?? 0) * newZ;
-        const newY = -(y ?? 0) * newZ;
-        return `translate3d(${newX}%, ${newY}%, ${newZ}px)`;
-    }, [layer, x, y, z]);
-
-    return <div style={{
-        position: "absolute",
-        backgroundColor: "red",
-        display: "flex",
-        alignContent: "center",
-        justifyContent: "center",
-        alignItems: "center",
-        opacity: 0.5,
-        ...style,
-        transform,
-    }}>X</div>;
-}
-
 export default function DemoPage() {
-    const {permissionState, handlePermission} = usePermissions("camera" as PermissionName);
+    const {permissionState} = usePermissions("camera" as PermissionName);
     const [isSettingsVisible, setIsSettingsVisible] = useState(false);
 
     // const {enableMouse, disableMouse} = useMouse();
-    // useEffect(() => {
-    //     enableMouse();
-    // }, [disableMouse, enableMouse]);
-
     const {
         videoRef,
         state: webcamState,
@@ -71,6 +42,11 @@ export default function DemoPage() {
         }
     }, [disableWebcam, enableWebcam, permissionState, setHasWebcamSupport]);
 
+    // Uncomment to enable mouse. Remember to comment all the code related to the webcam
+    // useEffect(() => {
+    //     enableMouse();
+    // }, [disableMouse, enableMouse]);
+
     return (
         <>
             <div className={styles.settings}>
@@ -97,36 +73,36 @@ export default function DemoPage() {
 
             <main className={`${styles.container}`}>
 
-                <Element layer={0} style={{
+                <Element3d layer={0} style={{
                     top: "45%",
                     right: "45%",
                     height: "10%",
                     width: "10%",
                     backgroundColor: "blue"
-                }}></Element>
-                <Element layer={100} style={{
+                }}></Element3d>
+                <Element3d layer={100} style={{
                     top: "45%",
                     right: "45%",
                     height: "10%",
                     width: "10%",
                     backgroundColor: "lightblue"
-                }}></Element>
+                }}></Element3d>
 
-                <Element layer={100} style={{
+                <Element3d layer={100} style={{
                     top: 0,
                     left: "-10%",
                     height: "200%",
                     width: "20%",
                     backgroundColor: "green"
-                }}></Element>
+                }}></Element3d>
 
-                <Element layer={100} style={{
+                <Element3d layer={100} style={{
                     "top": 0,
                     "left": "40%",
                     "height": "50%",
                     "width": "20%",
                     "backgroundColor": "yellow"
-                }}></Element>
+                }}></Element3d>
 
             </main>
 
