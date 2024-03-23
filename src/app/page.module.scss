@@ -77,4 +77,10 @@
   border-radius: 4px;
   cursor: pointer;
   margin: 5px;
+
+  &:global(.alternate) {
+    background: white;
+    color: black;
+    border: 1px solid black;
+  }
 }
