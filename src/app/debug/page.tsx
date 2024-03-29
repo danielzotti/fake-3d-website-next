@@ -167,9 +167,13 @@ export default function HomePage() {
                         <button onClick={activateMouse}>
                             Enable Mouse
                         </button>}
-                    {state.isMouseEnabled && <button onClick={deactivateMouse}>
-                        Disable Mouse
-                    </button>}
+                    {state.isMouseEnabled && <>
+                        <button onClick={deactivateMouse}>
+                            Disable Mouse
+                        </button>
+                        <span className={styles.mouseDisclaimer}>Use mouse wheel to zoom in/out</span>
+                    </>
+                    }
 
                     {/*WEBCAM*/}
                     {!state.isMouseEnabled && webcamState.hasWebcamSupport && <>
@@ -229,7 +233,6 @@ export default function HomePage() {
                     <button onClick={() => showWebcam()}
                             className={styles.videoMini}>📷</button>}
             </>}
-
         </>
     );
 }

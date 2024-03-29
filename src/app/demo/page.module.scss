@@ -1,10 +1,21 @@
 .container {
-  display: block;
+  display: flex;
+  position: relative;
+  perspective: 10cm;
+  overflow: hidden;
   height: 100dvh;
   width: 100dvw;
-  overflow: hidden;
-  position: absolute;
-  perspective: 10cm;
+
+  //margin: 30px auto;
+  //border: 1px solid red;
+  //aspect-ratio: 1;
+
+  //@media(orientation: portrait) {
+  //  width: 90dvw;
+  //}
+  //@media(orientation: landscape) {
+  //  height: 90dvh;
+  //}
 }
 
 .settings {

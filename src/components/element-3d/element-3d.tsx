@@ -1,26 +1,36 @@
 import {ViewContext} from "@/providers/ViewContextProvider";
-import {CSSProperties, useContext, useMemo} from "react";
+import {CSSProperties, ReactElement, useContext, useMemo} from "react";
 
-export const Element3d = ({layer, style}: { layer: number; style: CSSProperties }) => {
+export const Element3d = ({layer, top, left, style, children}: {
+    layer: number;
+    style?: CSSProperties,
+    top?: string;
+    left?: string;
+    children?: ReactElement
+}) => {
     const {viewState: {x, y, z}} = useContext(ViewContext);
 
     const transform = useMemo(() => {
         const newLayer = layer ?? 0;
         const newZ = (z ?? 1) * newLayer;
-        const newX = -(x ?? 0) * newZ;
-        const newY = -(y ?? 0) * newZ;
+        // const newX = -(x ?? 0) * newZ;
+        // const newY = -(y ?? 0) * newZ;
+        const newX = -50 - (x ?? 0) * newZ;
+        const newY = -50 - (y ?? 0) * newZ;
         return `translate3d(${newX}%, ${newY}%, ${newZ}px)`;
     }, [layer, x, y, z]);
 
     return <div style={{
         position: "absolute",
-        backgroundColor: "red",
         display: "flex",
         alignContent: "center",
         justifyContent: "center",
         alignItems: "center",
-        opacity: 0.5,
+        top: "50%",
+        left: "50%",
+        ...top && {top: `calc(50% + ${top})`},
+        ...left && {left: `calc(50% + ${left})`},
         ...style,
         transform,
-    }}>X</div>;
+    }}>{children}</div>;
 }
