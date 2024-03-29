@@ -1,12 +1,13 @@
 import {ViewContext} from "@/providers/ViewContextProvider";
 import {CSSProperties, ReactElement, useContext, useMemo} from "react";
 
-export const Element3d = ({layer, top, left, style, children}: {
+export const Element3d = ({layer, top, left, style, className, children}: {
     layer: number;
     style?: CSSProperties,
     top?: string;
     left?: string;
-    children?: ReactElement
+    children?: ReactElement;
+    className?: string;
 }) => {
     const {viewState: {x, y, z}} = useContext(ViewContext);
 
@@ -20,7 +21,7 @@ export const Element3d = ({layer, top, left, style, children}: {
         return `translate3d(${newX}%, ${newY}%, ${newZ}px)`;
     }, [layer, x, y, z]);
 
-    return <div style={{
+    return <div className={className} style={{
         position: "absolute",
         display: "flex",
         alignContent: "center",
