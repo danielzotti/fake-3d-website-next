@@ -12,8 +12,8 @@ interface WebcamState {
     isModelLoading: boolean;
     isVideoPictureInPicture: boolean;
     eyesPosition: { x: number, y: number };
-    webcamWidth: number;
-    webcamHeight: number;
+    webcamWidth?: number;
+    webcamHeight?: number;
 }
 
 export const useWebcam = () => {
@@ -32,8 +32,6 @@ export const useWebcam = () => {
         isVideoLoaded: false,
         isModelLoading: false,
         isVideoPictureInPicture: false,
-        webcamHeight: 480,
-        webcamWidth: 640,
         eyesPosition: {x: 0, y: 0},
     });
 
@@ -81,8 +79,8 @@ export const useWebcam = () => {
                 const {width: webcamWidth, height: webcamHeight} = stream.getTracks()[0].getSettings();
                 setState((s) => ({
                     ...s,
-                    webcamWidth: webcamWidth ?? 640,
-                    webcamHeight: webcamHeight ?? 480,
+                    webcamWidth,
+                    webcamHeight,
                     isWebcamVisible: true,
                 }));
             })
@@ -141,7 +139,7 @@ export const useWebcam = () => {
                 position = {
                     x: (eyesPosition[1].x + eyesPosition[0].x) / 2,
                     y: (eyesPosition[1].y + eyesPosition[0].y) / 2,
-                    z: Math.abs(eyesPosition[1].x - eyesPosition[0].x) / state.webcamWidth, // NB: This should definitely be improved (it works only for horizontal eyes)
+                    z: state.webcamWidth ? Math.abs(eyesPosition[1].x - eyesPosition[0].x) / state.webcamWidth : 1, // NB: This should definitely be improved (it works only for horizontal eyes)
                 }
             }
             if (eyesPosition.length === 1) {
@@ -159,13 +157,13 @@ export const useWebcam = () => {
                     y: position.y,
                 },
             }));
-            setViewState({
-                x: ((position.x / state.webcamWidth) * 2) - 1,
-                y: ((position.y / state.webcamHeight) * 2) - 1,
-                ...position.z && {z: position.z * 10} // 10 is a magic number to make the effect more visible
-            })
-            // TODO - improvement: point between 2 eyes and not just right eye
-            // TODO - improvement: calculate Z based on distance to the webcam -> E.G. (rightX - leftX) / webcam width
+            if (state.webcamWidth && state.webcamHeight) {
+                setViewState({
+                    x: ((position.x / state.webcamWidth) * 2) - 1,
+                    y: ((position.y / state.webcamHeight) * 2) - 1,
+                    ...position.z && {z: position.z * 10} // 10 is a magic number to make the effect more visible
+                })
+            }
         }
 
         if (isDetectingVideo.current) {
@@ -185,7 +183,7 @@ export const useWebcam = () => {
                 y: 0
             });
         }
-    }, [])
+    }, [setViewState, state.webcamHeight, state.webcamWidth])
 
 
     const startVideoDetection = useCallback(async () => {
@@ -225,7 +223,7 @@ export const useWebcam = () => {
             isVideoLoaded: true,
         }));
         enableDetectingVideo(); // Comment/Uncomment to disable/enable detecting video once enable webcam is clicked
-    }, [enableDetectingVideo]);
+    }, [enableDetectingVideo, state]);
 
     useEffect(() => {
         setState((s) => ({

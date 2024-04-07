@@ -30,9 +30,9 @@ const scaleValues = [
     2.5
 ]
 
-export default function DemoPage() {
+export default function MagritteTheSonOfManPage() {
     const {permissionState} = usePermissions("camera" as PermissionName);
-    const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+    const [isSettingsVisible, setIsSettingsVisible] = useState(true);
     const [scaleIndex, setScaleIndex] = useState(defaultScale);
 
     const {
@@ -119,10 +119,10 @@ export default function DemoPage() {
 
                 <main className={`${styles.main}`} style={{transform: `scale(${scaleValues[scaleIndex]})`}}>
 
-                    <Element3d layer={-2} className={styles.frame}>
+                    <Element3d layer={-1} className={styles.frame}>
                         <Image src={'images/magritte/background.png'} width={3000} height={3000} alt={"Background"}/>
                     </Element3d>
-                    <Element3d layer={2} top={"750px"}>
+                    <Element3d layer={1} top={"750px"}>
                         <Image src={'images/magritte/daniel.png'} width={428} height={1801} alt={"Daniel"}/>
                     </Element3d>
                     <Element3d layer={50} top={"-32px"} left={"7px"}>
