@@ -11,6 +11,7 @@ export default function HomePage() {
             <ul>
                 <li><Link href={"debug"}>Debug</Link></li>
                 <li><Link href={"magritte-the-son-of-man"}>Magritte - The Son of Man (Demo)</Link></li>
+                <li><Link href={"magritte-golconda"}>Magritte - Golconda (Demo)</Link></li>
             </ul>
         </div>
     );

@@ -1,0 +1,19 @@
+.frame {
+  --frame-main-color: #3f0b0b;
+  --frame-inner-color: black;
+  background-image: linear-gradient(to top right, transparent 48.5%, var(--frame-inner-color) 48.5%, var(--frame-inner-color) 51.5%, transparent 51.5%), linear-gradient(to top right, transparent 48.5%, var(--frame-inner-color) 48.5%, var(--frame-inner-color) 51.5%, transparent 51.5%), linear-gradient(to top left, transparent 48.5%, var(--frame-inner-color) 48.5%, var(--frame-inner-color) 51.5%, transparent 51.5%), linear-gradient(to top left, transparent 48.5%, var(--frame-inner-color) 48.5%, var(--frame-inner-color) 51.5%, transparent 51.5%);
+  background-size: 50px 50px;
+  background-position: top left, bottom right, top right, bottom left;
+  background-repeat: no-repeat;
+  padding: 50px;
+  background-color: var(--frame-main-color);
+}
+.frame:after {
+  position: absolute;
+  content: '';
+  height: calc(100% - 100px);
+  width: calc(100% - 100px);
+  top: 48px;
+  left: 48px;
+  border: 2px solid gray;
+}
