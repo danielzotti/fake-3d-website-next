@@ -90,24 +90,24 @@ export default function MagritteTheSonOfManPage() {
             {/*    <Image src={'images/magritte/golconda/magritte-golconda.jpg'} width={1841} height={1500}*/}
             {/*           alt={"Golconda"}/>*/}
             {/*</Element3d>*/}
-            <Element3d layer={2}>
+            <Element3d layer={0}>
                 <div className={styles.sky}/>
             </Element3d>
 
             {/*THIRD LAYER*/}
-            <DanielGrid layer={5}
+            <DanielGrid layer={4}
                         scale={0.35}
                         count={18}
                         top={-500}
                         left={-118}
-                        style={{filter: "brightness(0.75), contrast(0.6)"}}
+                        style={{filter: "contrast(0.5)"}}
             />
-            <DanielGrid layer={5}
+            <DanielGrid layer={4}
                         scale={0.35}
                         count={18}
                         top={-847}
                         left={-348}
-                        style={{filter: "brightness(0.75), contrast(0.6)"}}
+                        style={{filter: "contrast(0.5)"}}
             />
 
             {/*HOUSE*/}
@@ -128,14 +128,14 @@ export default function MagritteTheSonOfManPage() {
                         count={14}
                         top={320}
                         left={-68}
-                        style={{filter: "brightness(0.85), contrast(0.6)"}}
+                        style={{filter: "contrast(0.75)"}}
             />
             <DanielGrid layer={25}
                         scale={0.6}
                         count={14}
                         top={-30}
                         left={-308}
-                        style={{filter: "brightness(0.85), contrast(0.6)"}}
+                        style={{filter: "contrast(0.75)"}}
             />
 
 
