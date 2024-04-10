@@ -19,31 +19,55 @@ const imageDanielList = [
     "three-quarter-right.png",
     "three-quarter-right-look.png",
 ];
-const distanceLayerHorizontal = 420;
-const distanceLayerVertical = 695;
+const distanceX = 450;
+const distanceY = 685;
+const distanceZ = 10;
 
 function getDanielImageSrc(category: string, index: number) {
     return `${imagesBasePath}_${category}-${imageDanielList.at(index % imageDanielList.length)}`;
 }
 
-// [-8,-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((i) => getDanielImageSrc(Math.random() > 0.5 ? "man" : "mac", i))
+const DanielRow = ({count, level, top, left, layer, scale}: {
+    count: number;
+    level: number;
+    top: number;
+    left: number;
+    layer: number
+    scale: number;
+}) => {
+    return Array.from({length: count}, (_, i) => i + 1 - Math.floor(count / 2)).map((i) => {
 
+        const getTop = () => ((distanceY * level) + top) * scale;
+        const getLeft = () => ((distanceX * i) + left) * scale;
 
-const DanielRow = ({count, level, top, left, layer}: { count: number; level: number; top: number; left: number;  layer: number }) => {
-    return Array.from({length: count}, (_, i) => i - Math.floor(count / 2)).map((i) => {
-        return <Element3d key={i} layer={layer} top={`${(distanceLayerVertical * level) + top}px`}
-                          left={`${(distanceLayerHorizontal * i) + left}px`}>
-            <Image src={getDanielImageSrc(Math.random() > 0.5 ? "man" : "mac", i)}
+        return <Element3d key={i} layer={layer} top={`${getTop()}px`}
+                          left={`${getLeft()}px`}>
+            <Image src={getDanielImageSrc(imageCategoryList[Math.random() > 0.5 ? 1 : 0], i)}
                    alt="Daniel" width={1434}
                    height={1920}
-                   style={{width: "212px", height: "auto", opacity: 0.5}}/>
+                   style={{
+                       width: `212px`,
+                       height: "auto",
+                       scale: `${scale}`,
+                       // opacity: 0.5,
+                       // filter: "drop-shadow(3px 3px 0 red)"
+                   }}
+            />
         </Element3d>
     })
 }
 
-const DanielGrid = ({count, top, left, layer}: { count: number; top: number; left: number; layer: number }) => {
-    return Array.from({length: (Math.floor(count / 2))}, (_, i) => i - Math.floor(count / 4))
-        .map(level => <DanielRow key={count} count={count} level={level} top={top} left={left} layer={layer}/>)
+const DanielGrid = ({count, top, left, layer, scale}: {
+    count: number;
+    top: number;
+    left: number;
+    layer: number;
+    scale: number
+}) => {
+
+    return Array.from({length: (Math.floor(count / 2))}, (_, i) => i - Math.floor((count) / 4))
+        .map(level => <DanielRow key={level} count={count} level={level} top={top} left={left} layer={layer}
+                                 scale={scale}/>)
 }
 
 export default function MagritteTheSonOfManPage() {
@@ -51,33 +75,29 @@ export default function MagritteTheSonOfManPage() {
         <>
             {/*BACKGROUND*/}
             <Element3d layer={0} className={styles.frame}>
-                <Image src={'images/magritte/golconda/magritte-golcondaniel.jpg'} width={1841} height={1500}
-                       alt={"Golconda"}/>
+                <Image src={'images/magritte/golconda/magritte-golconda-empty.jpg'} width={1841} height={1500}
+                       alt={"Golconda Empty"}/>
             </Element3d>
+            {/*<Element3d layer={0} className={styles.frame}>*/}
+            {/*    <Image src={'images/magritte/golconda/magritte-golcondaniel.jpg'} width={1841} height={1500}*/}
+            {/*           alt={"Golconda"}/>*/}
+            {/*</Element3d>*/}
             {/*<Element3d layer={0} className={styles.frame}>*/}
             {/*    <Image src={'images/magritte/golconda/magritte-golconda.jpg'} width={1841} height={1500}*/}
             {/*           alt={"Golconda"}/>*/}
             {/*</Element3d>*/}
 
             {/*THIRD LAYER*/}
-            <DanielGrid layer={-50} count={12} top={450} left={-108}/>
-            <DanielGrid layer={-50} count={12} top={103} left={-308}/>
+            <DanielGrid layer={2} scale={0.35} count={18} top={500 - 1000} left={-118}/>
+            <DanielGrid layer={2} scale={0.35} count={18} top={153 - 1000} left={-348}/>
 
             {/*SECOND LAYER*/}
-            <DanielGrid layer={10} count={12} top={450} left={-108}/>
-            <DanielGrid layer={10} count={12} top={103} left={-308}/>
+            <DanielGrid layer={25} scale={0.6} count={14} top={320} left={-68}/>
+            <DanielGrid layer={25} scale={0.6} count={14} top={-30} left={-308}/>
 
             {/*FIRST LAYER*/}
-            <DanielGrid layer={100} count={12} top={103} left={-308}/>
-            <DanielGrid layer={100} count={12} top={450} left={-108}/>
-
-            <Element3d layer={100} top="105px" left="-308px">
-                <Image src={'images/magritte/golconda/golconda-daniel_man-front.png'} width={1434} height={1920}
-                       alt={"Daniel Front"}
-                       style={{width: "212px", height: "auto", opacity: 0.5}}
-                />
-            </Element3d>
-
+            <DanielGrid layer={40} scale={1.3} count={10} top={103} left={-338}/>
+            <DanielGrid layer={40} scale={1.3} count={10} top={470} left={-118}/>
         </>
     );
 }

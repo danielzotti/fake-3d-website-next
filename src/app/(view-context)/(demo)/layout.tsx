@@ -62,21 +62,21 @@ export default function DemoLayout({children}: Readonly<{
         setScaleIndex(defaultScale);
     }
 
-    // useEffect(() => {
-    //     enableWebcam();
-    //
-    //     return () => {
-    //         disableWebcam();
-    //         disableDetectingVideo();
-    //     }
-    // }, [disableDetectingVideo, disableWebcam, enableWebcam]);
-    //
-    // useEffect(() => {
-    //     if (permissionState === "granted") {
-    //         setHasWebcamSupport(true);
-    //         enableWebcam();
-    //     }
-    // }, [disableWebcam, enableWebcam, permissionState, setHasWebcamSupport]);
+    useEffect(() => {
+        enableWebcam();
+
+        return () => {
+            disableWebcam();
+            disableDetectingVideo();
+        }
+    }, [disableDetectingVideo, disableWebcam, enableWebcam]);
+
+    useEffect(() => {
+        if (permissionState === "granted") {
+            setHasWebcamSupport(true);
+            enableWebcam();
+        }
+    }, [disableWebcam, enableWebcam, permissionState, setHasWebcamSupport]);
 
     // Uncomment to enable mouse. Remember to comment all the code related to the webcam
     // const {enableMouse, disableMouse} = useMouse();

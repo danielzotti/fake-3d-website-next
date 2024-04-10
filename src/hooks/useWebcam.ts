@@ -161,7 +161,7 @@ export const useWebcam = () => {
                 setViewState({
                     x: ((position.x / state.webcamWidth) * 2) - 1,
                     y: ((position.y / state.webcamHeight) * 2) - 1,
-                    ...position.z && {z: position.z * 10} // 10 is a magic number to make the effect more visible
+                    ...position.z && {z: position.z * 20} // 20 is a magic number to make the effect more visible
                 })
             }
         }
