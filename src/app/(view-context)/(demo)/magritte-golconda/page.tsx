@@ -95,14 +95,14 @@ export default function MagritteTheSonOfManPage() {
             </Element3d>
 
             {/*THIRD LAYER*/}
-            <DanielGrid layer={4}
+            <DanielGrid layer={15}
                         scale={0.35}
                         count={18}
                         top={-500}
                         left={-118}
                         style={{filter: "contrast(0.5)"}}
             />
-            <DanielGrid layer={4}
+            <DanielGrid layer={15}
                         scale={0.35}
                         count={18}
                         top={-847}
@@ -111,7 +111,7 @@ export default function MagritteTheSonOfManPage() {
             />
 
             {/*HOUSE*/}
-            <Element3d layer={5} top={"470px"} left={"-60px"}>
+            <Element3d layer={3} top={"470px"} left={"-60px"}>
                 <Image src={'images/magritte/golconda/golconda-floating-house.png'}
                        width={1880}
                        height={793}
