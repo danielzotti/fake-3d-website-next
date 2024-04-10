@@ -2,6 +2,7 @@
 
 import {Element3d} from "@/components/element-3d/element-3d";
 import Image from "next/image";
+import {CSSProperties} from "react";
 
 import styles from "./page.module.scss";
 
@@ -19,29 +20,36 @@ const imageDanielList = [
     "three-quarter-right.png",
     "three-quarter-right-look.png",
 ];
-const distanceX = 450;
+const distanceX = 400;
 const distanceY = 685;
-const distanceZ = 10;
 
 function getDanielImageSrc(category: string, index: number) {
-    return `${imagesBasePath}_${category}-${imageDanielList.at(index % imageDanielList.length)}`;
+    return `${imagesBasePath}_${category}-${imageDanielList.at(Math.floor(Math.random() * imageDanielList.length) % imageDanielList.length)}`;
 }
 
-const DanielRow = ({count, level, top, left, layer, scale}: {
-    count: number;
-    level: number;
+interface ElementProps {
     top: number;
     left: number;
     layer: number
-    scale: number;
-}) => {
+    scale?: number;
+    style?: CSSProperties;
+}
+
+type DanielRowProps = {
+    count: number;
+    level: number;
+} & ElementProps;
+const DanielRow = ({count, level, top, left, layer, scale = 1, style}: DanielRowProps) => {
     return Array.from({length: count}, (_, i) => i + 1 - Math.floor(count / 2)).map((i) => {
 
         const getTop = () => ((distanceY * level) + top) * scale;
         const getLeft = () => ((distanceX * i) + left) * scale;
 
-        return <Element3d key={i} layer={layer} top={`${getTop()}px`}
-                          left={`${getLeft()}px`}>
+        return <Element3d key={i}
+                          layer={layer}
+                          top={`${getTop()}px`}
+                          left={`${getLeft()}px`}
+        >
             <Image src={getDanielImageSrc(imageCategoryList[Math.random() > 0.5 ? 1 : 0], i)}
                    alt="Daniel" width={1434}
                    height={1920}
@@ -49,35 +57,31 @@ const DanielRow = ({count, level, top, left, layer, scale}: {
                        width: `212px`,
                        height: "auto",
                        scale: `${scale}`,
-                       // opacity: 0.5,
-                       // filter: "drop-shadow(3px 3px 0 red)"
+                       ...style
                    }}
             />
         </Element3d>
     })
 }
 
-const DanielGrid = ({count, top, left, layer, scale}: {
+type DanielGridProps = {
     count: number;
-    top: number;
-    left: number;
-    layer: number;
-    scale: number
-}) => {
+} & ElementProps;
+const DanielGrid = ({count, top, left, layer, scale, style}: DanielGridProps) => {
 
     return Array.from({length: (Math.floor(count / 2))}, (_, i) => i - Math.floor((count) / 4))
         .map(level => <DanielRow key={level} count={count} level={level} top={top} left={left} layer={layer}
-                                 scale={scale}/>)
+                                 scale={scale} style={style}/>)
 }
 
 export default function MagritteTheSonOfManPage() {
     return (
         <>
             {/*BACKGROUND*/}
-            <Element3d layer={0} className={styles.frame}>
-                <Image src={'images/magritte/golconda/magritte-golconda-empty.jpg'} width={1841} height={1500}
-                       alt={"Golconda Empty"}/>
-            </Element3d>
+            {/*<Element3d layer={0} className={styles.frame}>*/}
+            {/*    <Image src={'images/magritte/golconda/magritte-golconda-empty.jpg'} width={1841} height={1500}*/}
+            {/*           alt={"Golconda Empty"}/>*/}
+            {/*</Element3d>*/}
             {/*<Element3d layer={0} className={styles.frame}>*/}
             {/*    <Image src={'images/magritte/golconda/magritte-golcondaniel.jpg'} width={1841} height={1500}*/}
             {/*           alt={"Golconda"}/>*/}
@@ -86,18 +90,70 @@ export default function MagritteTheSonOfManPage() {
             {/*    <Image src={'images/magritte/golconda/magritte-golconda.jpg'} width={1841} height={1500}*/}
             {/*           alt={"Golconda"}/>*/}
             {/*</Element3d>*/}
+            <Element3d layer={2}>
+                <div className={styles.sky}/>
+            </Element3d>
 
             {/*THIRD LAYER*/}
-            <DanielGrid layer={2} scale={0.35} count={18} top={500 - 1000} left={-118}/>
-            <DanielGrid layer={2} scale={0.35} count={18} top={153 - 1000} left={-348}/>
+            <DanielGrid layer={5}
+                        scale={0.35}
+                        count={18}
+                        top={-500}
+                        left={-118}
+                        style={{filter: "brightness(0.75), contrast(0.6)"}}
+            />
+            <DanielGrid layer={5}
+                        scale={0.35}
+                        count={18}
+                        top={-847}
+                        left={-348}
+                        style={{filter: "brightness(0.75), contrast(0.6)"}}
+            />
+
+            {/*HOUSE*/}
+            <Element3d layer={5} top={"470px"} left={"-60px"}>
+                <Image src={'images/magritte/golconda/golconda-floating-house.png'}
+                       width={1880}
+                       height={793}
+                       alt={"Golconda House Background"}
+                       style={{
+                           scale: "1"
+                       }}
+                />
+            </Element3d>
 
             {/*SECOND LAYER*/}
-            <DanielGrid layer={25} scale={0.6} count={14} top={320} left={-68}/>
-            <DanielGrid layer={25} scale={0.6} count={14} top={-30} left={-308}/>
+            <DanielGrid layer={25}
+                        scale={0.6}
+                        count={14}
+                        top={320}
+                        left={-68}
+                        style={{filter: "brightness(0.85), contrast(0.6)"}}
+            />
+            <DanielGrid layer={25}
+                        scale={0.6}
+                        count={14}
+                        top={-30}
+                        left={-308}
+                        style={{filter: "brightness(0.85), contrast(0.6)"}}
+            />
+
 
             {/*FIRST LAYER*/}
-            <DanielGrid layer={40} scale={1.3} count={10} top={103} left={-338}/>
-            <DanielGrid layer={40} scale={1.3} count={10} top={470} left={-118}/>
+            <DanielGrid layer={35} scale={1.3} count={10} top={103} left={-305}/>
+            <DanielGrid layer={35} scale={1.3} count={10} top={470} left={-108}/>
+
+            {/*HOUSE*/}
+            <Element3d layer={40} top={"524px"} left={"1407px"}>
+                <Image src={'images/magritte/golconda/golconda-floating-house2.png'}
+                       width={2106}
+                       height={4215}
+                       alt={"Golconda House Foreground"}
+                       style={{
+                           scale: "0.8",
+                       }}
+                />
+            </Element3d>
         </>
     );
 }
