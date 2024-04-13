@@ -59,7 +59,8 @@ A 3D mode for a website using webcam and face detection
 - [x] Make z (zoom) work not just if eyes are horizontal
 - [ ] Select webcam (in case of multiple webcams)
 - [ ] Improve UI
-- [ ] Create an example of a real website
+- [ ] Improve performance (lighter images?) 
+- [ ] Create an example of a real "standard" website with 3D mode
 
 ## Thanks to
 

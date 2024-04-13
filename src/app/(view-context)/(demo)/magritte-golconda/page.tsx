@@ -40,28 +40,25 @@ type DanielRowProps = {
     level: number;
 } & ElementProps;
 const DanielRow = ({count, level, top, left, layer, scale = 1, style}: DanielRowProps) => {
-    return Array.from({length: count}, (_, i) => i + 1 - Math.floor(count / 2)).map((i) => {
-
-        const getTop = () => ((distanceY * level) + top) * scale;
-        const getLeft = () => ((distanceX * i) + left) * scale;
-
-        return <Element3d key={i}
-                          layer={layer}
-                          top={`${getTop()}px`}
-                          left={`${getLeft()}px`}
-        >
-            <Image src={getDanielImageSrc(imageCategoryList[Math.random() > 0.5 ? 1 : 0], i)}
-                   alt="Daniel" width={1434}
-                   height={1920}
-                   style={{
-                       width: `212px`,
-                       height: "auto",
-                       scale: `${scale}`,
-                       ...style
-                   }}
-            />
-        </Element3d>
-    })
+    return Array.from({length: count}, (_, i) => i + 1 - Math.floor(count / 2))
+        .map((i) => {
+            return <Element3d key={i}
+                              layer={layer}
+                              top={`${((distanceY * level) + top) * scale}px`}
+                              left={`${((distanceX * i) + left) * scale}px`}
+            >
+                <Image src={getDanielImageSrc(imageCategoryList[Math.random() > 0.5 ? 1 : 0], i)}
+                       alt="Daniel" width={1434}
+                       height={1920}
+                       style={{
+                           width: `212px`,
+                           height: "auto",
+                           scale: `${scale}`,
+                           ...style
+                       }}
+                />
+            </Element3d>
+        })
 }
 
 type DanielGridProps = {
@@ -70,26 +67,22 @@ type DanielGridProps = {
 const DanielGrid = ({count, top, left, layer, scale, style}: DanielGridProps) => {
 
     return Array.from({length: (Math.floor(count / 2))}, (_, i) => i - Math.floor((count) / 4))
-        .map(level => <DanielRow key={level} count={count} level={level} top={top} left={left} layer={layer}
-                                 scale={scale} style={style}/>)
+        .map(level => {
+            return <DanielRow key={level}
+                              count={count}
+                              level={level}
+                              top={top}
+                              left={left}
+                              layer={layer}
+                              scale={scale}
+                              style={style}/>
+        })
 }
 
 export default function MagritteTheSonOfManPage() {
     return (
         <>
-            {/*BACKGROUND*/}
-            {/*<Element3d layer={0} className={styles.frame}>*/}
-            {/*    <Image src={'images/magritte/golconda/magritte-golconda-empty.jpg'} width={1841} height={1500}*/}
-            {/*           alt={"Golconda Empty"}/>*/}
-            {/*</Element3d>*/}
-            {/*<Element3d layer={0} className={styles.frame}>*/}
-            {/*    <Image src={'images/magritte/golconda/magritte-golcondaniel.jpg'} width={1841} height={1500}*/}
-            {/*           alt={"Golconda"}/>*/}
-            {/*</Element3d>*/}
-            {/*<Element3d layer={0} className={styles.frame}>*/}
-            {/*    <Image src={'images/magritte/golconda/magritte-golconda.jpg'} width={1841} height={1500}*/}
-            {/*           alt={"Golconda"}/>*/}
-            {/*</Element3d>*/}
+            {/*SKY*/}
             <Element3d layer={0}>
                 <div className={styles.sky}/>
             </Element3d>
