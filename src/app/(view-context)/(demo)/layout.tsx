@@ -3,7 +3,6 @@
 import {useMouse} from "@/hooks/useMouse";
 import {usePermissions} from "@/hooks/usePermissions";
 import {useWebcam} from "@/hooks/useWebcam";
-import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {ReactNode, useEffect, useState} from "react";
 
@@ -119,8 +118,12 @@ export default function DemoLayout({children}: Readonly<{
             </div>
 
             {permissionState !== "granted" &&
-                <p className={styles.webcamWarning}>Please, grant webcam permission manually on your browser. Current
-                    permission: {permissionState}</p>}
+                <div className={styles.webcamWarningContainer}>
+                    <p className={styles.webcamWarning}>Please, grant webcam permission manually on your browser.
+                        Current
+                        permission: {permissionState}</p>
+                </div>
+            }
 
             {webcamState.isOutOfFrame &&
                 <div className={styles.outOfFrameContainer}>

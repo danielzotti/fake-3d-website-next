@@ -11,7 +11,7 @@ export default function MagritteTheSonOfManPage() {
             <Element3d layer={-1} className={styles.frame}>
                 <Image src={'images/magritte/the-son-of-man/background.png'} width={3000} height={3000} alt={"Background"}/>
             </Element3d>
-            <Element3d layer={1} top={"750px"}>
+            <Element3d layer={5} top={"750px"}>
                 <Image src={'images/magritte/the-son-of-man/daniel.png'} width={428} height={1801} alt={"Daniel"}/>
             </Element3d>
             <Element3d layer={50} top={"-32px"} left={"7px"}>

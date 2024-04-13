@@ -4,6 +4,7 @@ import {Box3d} from "@/components/box-3d/box-3d";
 import {useWebcam} from "@/hooks/useWebcam";
 
 import {ViewContext} from "@/providers/ViewContextProvider";
+import {useRouter} from "next/navigation";
 import {useContext, useMemo, useState} from "react";
 
 import styles from "./page.module.scss";
@@ -21,6 +22,8 @@ interface State {
 }
 
 export default function HomePage() {
+    const router = useRouter();
+
     const {viewState} = useContext(ViewContext);
 
     const {enableMouse, disableMouse} = useMouse();
@@ -146,6 +149,8 @@ export default function HomePage() {
 
             </main>
 
+
+            <button onClick={() => router.push('/')} className={styles.homeButton}>🏠</button>
 
             <div className={styles.webcamControls}>
                 {!state.isSettingsVisible && <button onClick={enableSettings} style={{fontSize: "30px"}}>⚙️</button>}

@@ -29,9 +29,16 @@
   }
 }
 
+.homeButton {
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+}
+
 .webcamControls {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
 }
 
@@ -39,7 +46,7 @@
   transform: scaleX(-1); // Selfie mode
   position: fixed;
   right: 8px;
-  bottom: 8px;
+  top: 8px;
   width: 300px;
   cursor: pointer;
   transition: opacity 0.25s ease-in-out, width 0.25s ease-in-out;
@@ -59,7 +66,7 @@
 .videoMini {
   position: fixed;
   right: 8px;
-  bottom: 8px;
+  top: 8px;
   display: block;
   font-size: 30px;
   background: black;

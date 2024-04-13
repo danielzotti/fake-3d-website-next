@@ -39,22 +39,30 @@
   max-width: 100%;
 }
 
-.webcamWarning {
+.webcamWarningContainer {
   position: fixed;
-  z-index: 10000;
-  top: 0;
-  left: 0;
-  padding: 10px;
-  margin: 10px;
-  display: inline-block;
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  border: 4px solid #ffd54d;
+  box-shadow: inset 0 0 5px 0 rgba(211, 108, 4, 0.5);
+}
+
+.webcamWarning {
   background-color: #ffd54d;
   color: black;
   border: 1px solid #d36c04;
   border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
 
 .homeButton {
   position: fixed;
+  z-index: 10000;
   top: 0;
   left: 0;
 }
@@ -66,8 +74,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10000;
-  border: 2px solid #D33;
+  z-index: 2000;
+  border: 4px solid #D33;
   box-shadow: inset 0 0 5px 0 rgba(255, 0, 0, 0.5);
 }
 
