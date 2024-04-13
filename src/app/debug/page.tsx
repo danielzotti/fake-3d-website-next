@@ -153,7 +153,13 @@ export default function HomePage() {
             <button onClick={() => router.push('/')} className={styles.homeButton}>🏠</button>
 
             <div className={styles.webcamControls}>
+
+                {state.isSettingsVisible && state.isDebugEnabled &&
+                    <pre>State: {JSON.stringify(currentState, null, 2)}</pre>}
+                {/*<pre>State: {JSON.stringify(state, null, 2)}</pre>*/}
+
                 {!state.isSettingsVisible && <button onClick={enableSettings} style={{fontSize: "30px"}}>⚙️</button>}
+
                 {state.isSettingsVisible &&
                     <button onClick={disableSettings} style={{fontSize: "30px"}}>&times;</button>}
 
@@ -214,10 +220,6 @@ export default function HomePage() {
                                 Disable 3D
                             </button>}
                     </>}
-
-                    {state.isDebugEnabled &&
-                        <pre>State: {JSON.stringify(currentState, null, 2)}</pre>}
-                    {/*<pre>State: {JSON.stringify(state, null, 2)}</pre>*/}
                 </>}
 
 

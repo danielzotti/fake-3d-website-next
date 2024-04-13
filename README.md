@@ -56,7 +56,7 @@ A 3D mode for a website using webcam and face detection
 - [x] Add/Improve depth using both eyes (it works only calculating the horizontal distance)
 - [x] Create a more graphical example (Magritte paintings)
 - [x] Add threshold/interpolation for face detection (view position buffer)
-- [ ] Make z (zoom) work not just if eyes are horizontal
+- [x] Make z (zoom) work not just if eyes are horizontal
 - [ ] Select webcam (in case of multiple webcams)
 - [ ] Improve UI
 - [ ] Create an example of a real website

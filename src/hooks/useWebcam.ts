@@ -145,13 +145,19 @@ export const useWebcam = () => {
                 ?.keypoints.filter(({name}) => ["rightEye", "leftEye"].includes(name ?? "")) || [];
 
             if (eyesPosition.length === 2) {
+                const isHorizontal = Math.abs(eyesPosition[1].x - eyesPosition[0].x) > Math.abs(eyesPosition[1].y - eyesPosition[0].y);
                 // center
                 position = {
                     x: (eyesPosition[1].x + eyesPosition[0].x) / 2,
                     y: (eyesPosition[1].y + eyesPosition[0].y) / 2,
-                    z: state.webcamWidth ? Math.abs(eyesPosition[1].x - eyesPosition[0].x) / state.webcamWidth : 1, // TODO: This should definitely be improved (it works only for horizontal eyes)
+                    ...(state.webcamWidth && state.webcamHeight) ? {
+                        z: isHorizontal
+                            ? Math.abs(eyesPosition[1].x - eyesPosition[0].x) / state.webcamWidth
+                            : Math.abs(eyesPosition[1].y - eyesPosition[0].y) / state.webcamHeight,
+                    } : {z: 1}
                 }
             }
+
             if (eyesPosition.length === 1) {
                 // right or left eye
                 position = {
