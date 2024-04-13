@@ -14,6 +14,7 @@ interface WebcamState {
     eyesPosition: { x: number, y: number };
     webcamWidth?: number;
     webcamHeight?: number;
+    isOutOfFrame?: boolean,
 }
 
 const eyesPositionBufferSize = 10;
@@ -40,6 +41,7 @@ export const useWebcam = () => {
         isModelLoading: false,
         isVideoPictureInPicture: false,
         eyesPosition: {x: 0, y: 0},
+        isOutOfFrame: false,
     });
 
     const showWebcam = useCallback(() => {
@@ -112,6 +114,7 @@ export const useWebcam = () => {
             isWebcamEnabled: false,
             isWebcamVisible: false,
             eyesPosition: {x: 0, y: 0},
+            isOutOfFrame: false
         }));
         setViewState({
             x: 0,
@@ -164,6 +167,7 @@ export const useWebcam = () => {
                     x: position.x,
                     y: position.y,
                 },
+                isOutOfFrame: false,
             }));
 
             if (state.webcamWidth && state.webcamHeight) {
@@ -184,6 +188,11 @@ export const useWebcam = () => {
                     x, y, z
                 })
             }
+        } else {
+            setState((s) => ({
+                ...s,
+                isOutOfFrame: true,
+            }));
         }
 
         if (isDetectingVideo.current) {
@@ -197,6 +206,7 @@ export const useWebcam = () => {
             setState((s) => ({
                 ...s,
                 eyesPosition: {x: 0, y: 0},
+                isOutOfFrame: false,
             }));
             setViewState({
                 x: 0,
@@ -210,6 +220,7 @@ export const useWebcam = () => {
         setState((s) => ({
             ...s,
             isModelLoading: true,
+            isOutOfFrame: false,
         }));
 
         const model = SupportedModels.MediaPipeFaceDetector;

@@ -3,6 +3,8 @@
 import {useMouse} from "@/hooks/useMouse";
 import {usePermissions} from "@/hooks/usePermissions";
 import {useWebcam} from "@/hooks/useWebcam";
+import Link from "next/link";
+import {useRouter} from "next/navigation";
 import {ReactNode, useEffect, useState} from "react";
 
 import styles from "./layout.module.scss";
@@ -31,6 +33,9 @@ const scaleValues = [
 export default function DemoLayout({children}: Readonly<{
     children: ReactNode;
 }>) {
+
+    const router = useRouter();
+
     const {permissionState} = usePermissions("camera" as PermissionName);
     const [isSettingsVisible, setIsSettingsVisible] = useState(true);
     const [scaleIndex, setScaleIndex] = useState(defaultScale);
@@ -89,7 +94,9 @@ export default function DemoLayout({children}: Readonly<{
 
     return (
         <>
+
             <div className={styles.settings}>
+                <button onClick={() => router.push('/')} className={styles.homeButton}>🏠</button>
 
                 {!isSettingsVisible && permissionState === "granted" &&
                     <button onClick={() => setIsSettingsVisible(true)}>⚙️</button>}
@@ -115,8 +122,13 @@ export default function DemoLayout({children}: Readonly<{
                 <p className={styles.webcamWarning}>Please, grant webcam permission manually on your browser. Current
                     permission: {permissionState}</p>}
 
-            <div className={styles.container}>
+            {webcamState.isOutOfFrame &&
+                <div className={styles.outOfFrameContainer}>
+                    <p className={styles.outOfFrameWarning}>You are out of the webcam view!</p>
+                </div>
+            }
 
+            <div className={styles.container}>
                 <main className={`${styles.main}`} style={{transform: `scale(${scaleValues[scaleIndex]})`}}>
                     {children}
                 </main>

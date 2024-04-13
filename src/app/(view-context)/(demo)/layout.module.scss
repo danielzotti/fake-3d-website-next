@@ -52,3 +52,29 @@
   border: 1px solid #d36c04;
   border-radius: 5px;
 }
+
+.homeButton {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.outOfFrameContainer {
+  position: fixed;
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  border: 2px solid #D33;
+  box-shadow: inset 0 0 5px 0 rgba(255, 0, 0, 0.5);
+}
+
+.outOfFrameWarning {
+  background-color: #D33;
+  color: black;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}
