@@ -16,6 +16,12 @@ interface WebcamState {
     webcamHeight?: number;
 }
 
+const eyesPositionBufferSize = 10;
+
+function averagePoint(...values: number[]) {
+    return values.reduce((acc, val) => acc + (val ?? 0), 0) / values.length;
+}
+
 export const useWebcam = () => {
 
     const {viewState, setViewState} = useContext(ViewContext);
@@ -24,6 +30,7 @@ export const useWebcam = () => {
     const webcamStream = useRef<MediaStream>();
     const detector = useRef<FaceDetector>()
     const isDetectingVideo = useRef<boolean>(false);
+    const viewPositionBuffer = useRef<Array<{ x: number, y: number; z?: number; }>>([]);
 
     const [state, setState] = useState<WebcamState>({
         hasWebcamSupport: undefined,
@@ -139,7 +146,7 @@ export const useWebcam = () => {
                 position = {
                     x: (eyesPosition[1].x + eyesPosition[0].x) / 2,
                     y: (eyesPosition[1].y + eyesPosition[0].y) / 2,
-                    z: state.webcamWidth ? Math.abs(eyesPosition[1].x - eyesPosition[0].x) / state.webcamWidth : 1, // NB: This should definitely be improved (it works only for horizontal eyes)
+                    z: state.webcamWidth ? Math.abs(eyesPosition[1].x - eyesPosition[0].x) / state.webcamWidth : 1, // TODO: This should definitely be improved (it works only for horizontal eyes)
                 }
             }
             if (eyesPosition.length === 1) {
@@ -150,6 +157,7 @@ export const useWebcam = () => {
                 }
             }
 
+
             setState((s) => ({
                 ...s,
                 eyesPosition: {
@@ -157,22 +165,34 @@ export const useWebcam = () => {
                     y: position.y,
                 },
             }));
+
             if (state.webcamWidth && state.webcamHeight) {
-                setViewState({
+
+                const newViewPosition = {
                     x: ((position.x / state.webcamWidth) * 2) - 1,
                     y: ((position.y / state.webcamHeight) * 2) - 1,
-                    ...position.z && {z: position.z * 20} // 20 is a magic number to make the effect more visible
+                    ...position.z && {z: position.z * 20}
+                };
+
+                viewPositionBuffer.current = viewPositionBuffer.current.length < eyesPositionBufferSize ? [...viewPositionBuffer.current, newViewPosition] : [...viewPositionBuffer.current.splice(1), newViewPosition];
+
+                const x = averagePoint(...viewPositionBuffer.current.map((p) => p.x));
+                const y = averagePoint(...viewPositionBuffer.current.map((p) => p.y));
+                const z = averagePoint(...viewPositionBuffer.current.map((p) => p.z ?? 0));
+
+                setViewState({
+                    x, y, z
                 })
             }
         }
 
         if (isDetectingVideo.current) {
-            // requestAnimationFrame(() => {
-            //     detectVideo();
-            // });
-            setTimeout(() => {
+            requestAnimationFrame(() => {
                 detectVideo();
-            }, 100);
+            });
+            // setTimeout(() => {
+            //     detectVideo();
+            // }, 100);
         } else {
             setState((s) => ({
                 ...s,
@@ -223,7 +243,7 @@ export const useWebcam = () => {
             isVideoLoaded: true,
         }));
         enableDetectingVideo(); // Comment/Uncomment to disable/enable detecting video once enable webcam is clicked
-    }, [enableDetectingVideo, state]);
+    }, [enableDetectingVideo]);
 
     useEffect(() => {
         setState((s) => ({
