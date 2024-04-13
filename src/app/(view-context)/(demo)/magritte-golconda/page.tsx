@@ -147,6 +147,7 @@ export default function MagritteTheSonOfManPage() {
                        }}
                 />
             </Element3d>
+
         </>
     );
 }

@@ -17,7 +17,7 @@ interface WebcamState {
     isOutOfFrame?: boolean,
 }
 
-const eyesPositionBufferSize = 10;
+const eyesPositionBufferSize = 6;
 
 function averagePoint(...values: number[]) {
     return values.reduce((acc, val) => acc + (val ?? 0), 0) / values.length;
