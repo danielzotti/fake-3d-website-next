@@ -2,7 +2,7 @@ import {ViewState} from "@/models/view-state.models";
 import {ViewContext} from "@/providers/ViewContextProvider";
 import {createDetector, type FaceDetector, SupportedModels} from "@tensorflow-models/face-detection";
 import type {MediaPipeFaceDetectorMediaPipeModelConfig} from "@tensorflow-models/face-detection/dist/mediapipe/types";
-import {useCallback, useContext, useEffect, useRef, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 
 interface WebcamState {
     hasWebcamSupport?: boolean;
@@ -15,6 +15,8 @@ interface WebcamState {
     webcamWidth?: number;
     webcamHeight?: number;
     isOutOfFrame?: boolean,
+    selectedDevice?: MediaDeviceInfo;
+    availableDevices?: MediaDeviceInfo[];
 }
 
 const eyesPositionBufferSize = 6;
@@ -32,6 +34,8 @@ export const useWebcam = () => {
     const detector = useRef<FaceDetector>()
     const isDetectingVideo = useRef<boolean>(false);
     const viewPositionBuffer = useRef<Array<{ x: number, y: number; z?: number; }>>([]);
+    // const availableDevices = useRef<MediaDeviceInfo[]>([]);
+    // const selectedDevice = useRef<MediaDeviceInfo>();
 
     const [state, setState] = useState<WebcamState>({
         hasWebcamSupport: undefined,
@@ -65,11 +69,27 @@ export const useWebcam = () => {
         }));
     }, [])
 
-    const enableWebcam = useCallback(() => {
-        setState((s) => ({
-            ...s,
-            isWebcamEnabled: true,
-        }));
+    const enableWebcam = useCallback(async (deviceId?: string) => {
+        if (!deviceId) {
+            const allDevices = await navigator.mediaDevices.enumerateDevices();
+            const videoDevices = allDevices.filter(d => d.kind === "videoinput");
+            const defaultDeviceId = videoDevices[0].deviceId
+            deviceId = defaultDeviceId;
+
+            setState((s) => ({
+                ...s,
+                isWebcamEnabled: true,
+                availableDevices: videoDevices,
+                selectedDeviceId: defaultDeviceId,
+            }));
+            console.log({videoDevices});
+        } else {
+            setState((s) => ({
+                ...s,
+                isWebcamEnabled: true,
+                selectedDeviceId: deviceId,
+            }));
+        }
 
         // Activate the webcam stream.
         window.navigator.mediaDevices
@@ -77,6 +97,9 @@ export const useWebcam = () => {
                 video: {
                     facingMode: "user", // front camera
                     frameRate: {ideal: 25, max: 25}, // more than 25 fps not needed
+                    deviceId: {
+                        exact: deviceId,
+                    }
                 },
                 audio: false,
             })
@@ -262,6 +285,17 @@ export const useWebcam = () => {
         enableDetectingVideo(); // Comment/Uncomment to disable/enable detecting video once enable webcam is clicked
     }, [enableDetectingVideo]);
 
+    const changeDevice = useCallback(() => {
+        const selectedIndex = state.availableDevices?.findIndex(d => d.deviceId === state.selectedDevice?.deviceId)
+        const newDevice = state.availableDevices?.at(((selectedIndex !== -1 && selectedIndex !== undefined) ? selectedIndex + 1 : 0) % state.availableDevices.length)
+        setState((s) => ({
+            ...s,
+            selectedDevice: newDevice
+        }))
+        void enableWebcam(newDevice?.deviceId)
+    }, [enableWebcam, state.availableDevices, state.selectedDevice?.deviceId])
+
+
     useEffect(() => {
         setState((s) => ({
             ...s,
@@ -283,6 +317,7 @@ export const useWebcam = () => {
         disableWebcam,
         handleVideoLoaded,
         showWebcam,
-        hideWebcam
+        hideWebcam,
+        changeDevice,
     }
 }

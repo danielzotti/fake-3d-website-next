@@ -49,7 +49,8 @@ export default function DemoLayout({children}: Readonly<{
         disableWebcam,
         enableDetectingVideo,
         disableDetectingVideo,
-        setHasWebcamSupport
+        setHasWebcamSupport,
+        changeDevice,
     } = useWebcam();
 
     const zoomIn = () => {
@@ -113,6 +114,9 @@ export default function DemoLayout({children}: Readonly<{
                     <button onClick={zoomOut}>-</button>
                     <button onClick={resetZoom}><small>reset</small></button>
                     <button onClick={zoomIn}>+</button>
+
+                    {/*WEBCAM*/}
+                    <button onClick={changeDevice}>{webcamState.selectedDevice?.deviceId} 🔁🎦</button>
                 </div>}
 
             </div>
