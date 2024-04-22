@@ -188,7 +188,7 @@ export default function HomePage() {
 
                     {/*WEBCAM*/}
                     {!state.isMouseEnabled && webcamState.hasWebcamSupport && <>
-                        {!webcamState.isWebcamEnabled && <button onClick={enableWebcam}>
+                        {!webcamState.isWebcamEnabled && <button onClick={() => enableWebcam()}>
                             Enable Webcam
                         </button>}
                         {webcamState.isWebcamEnabled &&
