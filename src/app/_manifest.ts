@@ -1,6 +1,7 @@
 import {MetadataRoute} from "next";
 
-export default function manifest(): MetadataRoute.Manifest {
+// TODO: it doesn't work with GitHub pages since it creates a manifest.webmanifest file in the root directory (we want to have it in /fake-3d-website-next subfolder)
+export default function _manifest(): MetadataRoute.Manifest {
     return {
         name: "Fake 3D Website",
         short_name: "Fake 3D Website",
