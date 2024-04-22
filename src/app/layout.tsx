@@ -32,7 +32,7 @@ export default function RootLayout({
         </body>
         <Suspense fallback={null}>
             {/*Client only*/}
-            <Script src="/service-worker.js"/>
+            <Script src="service-worker.js"/>
         </Suspense>
         </html>
     );

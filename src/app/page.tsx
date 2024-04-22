@@ -19,7 +19,7 @@ export default function HomePage() {
                         <Image src={golconda.src}
                                alt={`Magritte - "Golconda" painting`}
                                fill
-                               objectFit={"cover"}
+                               style={{objectFit:"cover"}}
                         />
                     </div>
                     <div>Magritte - Golconda</div>
@@ -33,7 +33,7 @@ export default function HomePage() {
                         <Image src={theSonOfMan.src}
                                alt={`Magritte - "The Son of Man" painting`}
                                fill
-                               objectFit={"cover"}
+                               style={{objectFit:"cover"}}
                         />
                     </div>
                     <div>Magritte - The Son of Man</div>
@@ -50,7 +50,7 @@ export default function HomePage() {
                         <Image src={debug.src}
                                alt={`Fake 3D Website Debug preview`}
                                fill
-                               objectFit={"cover"}
+                               style={{objectFit:"cover"}}
                         />
                     </div>
                     <div>DEBUG</div>

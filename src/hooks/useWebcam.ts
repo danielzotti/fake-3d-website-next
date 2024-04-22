@@ -73,22 +73,23 @@ export const useWebcam = () => {
         if (!deviceId) {
             const allDevices = await navigator.mediaDevices.enumerateDevices();
             const videoDevices = allDevices.filter(d => d.kind === "videoinput");
-            const defaultDeviceId = videoDevices[0].deviceId
-            deviceId = defaultDeviceId;
+            const defaultDevice = videoDevices[0]
 
             setState((s) => ({
                 ...s,
                 isWebcamEnabled: true,
                 availableDevices: videoDevices,
-                selectedDeviceId: defaultDeviceId,
+                selectedDevice: defaultDevice,
             }));
-            console.log({videoDevices});
         } else {
-            setState((s) => ({
-                ...s,
-                isWebcamEnabled: true,
-                selectedDeviceId: deviceId,
-            }));
+            setState((s) => {
+                const selectedDevice = s.availableDevices?.find(d => d.deviceId === deviceId) || s.availableDevices?.at(0);
+                return {
+                    ...s,
+                    isWebcamEnabled: true,
+                    selectedDevice
+                }
+            });
         }
 
         // Activate the webcam stream.
@@ -96,7 +97,7 @@ export const useWebcam = () => {
             .getUserMedia({
                 video: {
                     facingMode: "user", // front camera
-                    frameRate: {ideal: 25, max: 25}, // more than 25 fps not needed
+                    frameRate: {ideal: 50, max: 50}, // maybe more than 25fps not needed
                     deviceId: {
                         exact: deviceId,
                     }
@@ -244,7 +245,6 @@ export const useWebcam = () => {
         }
     }, [setViewState, state.webcamHeight, state.webcamWidth])
 
-
     const startVideoDetection = useCallback(async () => {
         setState((s) => ({
             ...s,
@@ -282,7 +282,7 @@ export const useWebcam = () => {
             ...s,
             isVideoLoaded: true,
         }));
-        enableDetectingVideo(); // Comment/Uncomment to disable/enable detecting video once enable webcam is clicked
+        void enableDetectingVideo(); // Comment/Uncomment to disable/enable detecting video once enable webcam is clicked
     }, [enableDetectingVideo]);
 
     const changeDevice = useCallback(() => {
@@ -292,6 +292,7 @@ export const useWebcam = () => {
             ...s,
             selectedDevice: newDevice
         }))
+        disableWebcam();
         void enableWebcam(newDevice?.deviceId)
     }, [enableWebcam, state.availableDevices, state.selectedDevice?.deviceId])
 

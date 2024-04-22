@@ -116,12 +116,12 @@ export default function DemoLayout({children}: Readonly<{
                     <button onClick={zoomIn}>+</button>
 
                     {/*WEBCAM*/}
-                    <button onClick={changeDevice}>{webcamState.selectedDevice?.deviceId} 🔁🎦</button>
+                    <button onClick={changeDevice}>🎦🔁 {webcamState.selectedDevice?.label}</button>
                 </div>}
 
             </div>
 
-            {permissionState !== "granted" &&
+            {(permissionState === "denied" || permissionState === "prompt") &&
                 <div className={styles.webcamWarningContainer}>
                     <p className={styles.webcamWarning}>Please, grant webcam permission manually on your browser.
                         Current
